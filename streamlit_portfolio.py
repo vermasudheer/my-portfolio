@@ -3,7 +3,7 @@ from PIL import Image
 import requests
 
 # Load Profile Image from GitHub Repo
-profile_image_url = "https://github.com/vermasudheer/my-portfolio/blob/main/profile.jpg"
+profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/profile.jpg"
 profile_image = Image.open(requests.get(profile_image_url, stream=True).raw)
 
 # Custom Styles
@@ -28,7 +28,6 @@ page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Certifi
 if page == "About Me":
     st.image(profile_image, width=200)
     st.title("Sudheer Verma")
-    st.write("Solution Analyst | Data Engineer | Procurement Analytics | Cloud Technologies")
     st.write("With over 3 years of experience in data engineering and analytics, I specialize in optimizing data pipelines, enhancing dashboarding solutions, and leveraging cloud-based infrastructures for large-scale data management.")
     st.write("📍 Based in India, currently working at ExxonMobil.")
     st.markdown("**Education:** B.Tech - M.Tech (Dual Degree) from IIT Kanpur")
@@ -72,6 +71,6 @@ elif page == "Blog":
 # Contact Section
 elif page == "Contact":
     st.header("Get in Touch")
-    st.write("📧 Email: sudheer@example.com")
+    st.write("📧 Email: sudheerverma25@gamil.com")
     st.markdown("🔗 LinkedIn: [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
     st.markdown("🐙 GitHub: [vermasudheer](https://github.com/vermasudheer)")
