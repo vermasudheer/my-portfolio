@@ -15,6 +15,8 @@ st.markdown(
         .stButton button { background-color: #3498db; color: white; }
         .stButton button:hover { background-color: #2980b9; }
         .highlight { font-weight: bold; color: #e74c3c; }
+        .profile-container { display: flex; align-items: center; }
+        .profile-container img { border-radius: 50%; margin-right: 20px; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -26,7 +28,9 @@ page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Certifi
 
 # About Me Section
 if page == "About Me":
+    st.markdown("<div class='profile-container'>", unsafe_allow_html=True)
     st.image(profile_image, width=200)
+    st.markdown("</div>", unsafe_allow_html=True)
     st.title("Sudheer Verma")
     st.write("With over 3 years of experience in data engineering and analytics, I specialize in optimizing data pipelines, enhancing dashboarding solutions, and leveraging cloud-based infrastructures for large-scale data management.")
     st.write("📍 Based in India, currently working at ExxonMobil.")
@@ -71,6 +75,6 @@ elif page == "Blog":
 # Contact Section
 elif page == "Contact":
     st.header("Get in Touch")
-    st.write("📧 Email: sudheerverma25@gamil.com")
+    st.write("📧 Email: sudheerverma25@gmail.com")
     st.markdown("🔗 LinkedIn: [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
     st.markdown("🐙 GitHub: [vermasudheer](https://github.com/vermasudheer)")
