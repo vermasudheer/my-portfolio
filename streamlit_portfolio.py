@@ -10,21 +10,20 @@ profile_image = Image.open(requests.get(profile_image_url, stream=True).raw)
 st.markdown(
     """
     <style>
-        .navbar { background-color: #2c3e50; padding: 15px; text-align: center; color: white; font-size: 24px; font-weight: bold; }
+        .navbar { background-color: #2c3e50; padding: 15px; text-align: left; color: white; font-size: 24px; font-weight: bold; }
         .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
         .stButton button { background-color: #3498db; color: white; }
         .stButton button:hover { background-color: #2980b9; }
         .highlight { font-weight: bold; color: #e74c3c; }
-        .profile-container { display: flex; align-items: center; }
+        .profile-container { display: flex; align-items: center; text-align: left; }
         .profile-container img { border-radius: 50%; margin-right: 20px; }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-# Sidebar Navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
+# Navigation
+page = st.sidebar.radio("", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
 
 # About Me Section
 if page == "About Me":
@@ -52,15 +51,13 @@ elif page == "Experience":
 # Projects Section
 elif page == "Projects":
     st.header("Key Projects")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.write("🚀 **Predicting Purchase Order (PO) Recycling**")
-        st.write("- Designed a machine learning model to predict PO recycling trends, reducing inefficiencies in procurement workflows.")
-        st.write("- Integrated insights into Tableau dashboards for real-time monitoring.")
-    with col2:
-        st.write("📊 **Optimized ETL Pipeline in Snowflake**")
-        st.write("- Built and optimized ETL pipelines for procurement data, ensuring data governance and compliance.")
-        st.write("- Implemented indexing and partitioning, reducing query times by 30%.")
+    st.write("🚀 **Predicting Purchase Order (PO) Recycling**")
+    st.write("- Designed a machine learning model to predict PO recycling trends, reducing inefficiencies in procurement workflows.")
+    st.write("- Integrated insights into Tableau dashboards for real-time monitoring.")
+    
+    st.write("📊 **Optimized ETL Pipeline in Snowflake**")
+    st.write("- Built and optimized ETL pipelines for procurement data, ensuring data governance and compliance.")
+    st.write("- Implemented indexing and partitioning, reducing query times by 30%.")
 
 # Certifications Section
 elif page == "Certifications":
