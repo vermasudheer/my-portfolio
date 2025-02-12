@@ -1,61 +1,65 @@
 import streamlit as st
 from PIL import Image
 import requests
-import io
-import re
 
 # Cache the profile image to avoid multiple requests
 @st.cache_data
 def load_profile_image(url):
     response = requests.get(url, stream=True)
-    return Image.open(io.BytesIO(response.content))
+    if response.status_code == 200:
+        return Image.open(response.raw)
+    return None
 
 # Load Profile Image
 profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/profile.jpg"
 profile_image = load_profile_image(profile_image_url)
 
-# Apply Custom Styles
-def apply_custom_styles():
-    st.markdown(
-        """
-        <style>
-            .navbar { background-color: #2c3e50; padding: 15px; text-align: left; color: white; font-size: 24px; font-weight: bold; }
-            .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
-            .stButton button { background-color: #3498db; color: white; }
-            .stButton button:hover { background-color: #2980b9; }
-            .highlight { font-weight: bold; color: #e74c3c; }
-            .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
-            .experience-title { font-weight: bold; color: #2c3e50; font-size: 18px; }
-            .experience-duration { font-weight: bold; color: #3498db; }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+# Custom Styles
+st.markdown(
+    """
+    <style>
+        .navbar { background-color: #2c3e50; padding: 15px; text-align: left; color: white; font-size: 24px; font-weight: bold; }
+        .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
+        .stButton button { background-color: #3498db; color: white; }
+        .stButton button:hover { background-color: #2980b9; }
+        .highlight { font-weight: bold; color: #e74c3c; }
+        .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
+        .stRadio > label { background-color: #dfe6e9; padding: 5px; border-radius: 5px; }
+        .experience-title { font-weight: bold; color: #2c3e50; font-size: 18px; }
+        .experience-duration { font-weight: bold; color: #3498db; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
-apply_custom_styles()
+# Navigation
+page = st.sidebar.radio("Navigate", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
 
-# Define Page Sections
-def show_about():
+# About Me Section
+if page == "About Me":
     col1, col2 = st.columns([1, 2])
     with col1:
-        st.image(profile_image, width=200)
+        if profile_image:
+            st.image(profile_image, width=200)
     with col2:
         st.title("Sudheer Verma")
         st.write("Experienced Data Engineer specializing in optimizing data pipelines, dashboarding, and cloud-based infrastructures.")
         st.write("📍 Based in India, currently working at ExxonMobil.")
         st.markdown("**Education:** B.Tech - M.Tech (Dual Degree) from IIT Kanpur")
 
-def show_experience():
+# Experience Section
+elif page == "Experience":
     st.header("Professional Experience")
-    with st.expander("**Solution Analyst | <span style='color:#3498db;'>ExxonMobil</span>** <span class='experience-duration'>(Dec 2024 - Present)</span>", unsafe_allow_html=True):
+    with st.expander("**Solution Analyst | ExxonMobil** (Dec 2024 - Present)"):
         st.write("- Develop dashboards for Procurement KPIs using **Tableau, Power BI, SQL, and Snowflake**.")
         st.write("- Build robust **data pipelines** in Snowflake, ensuring clean and efficient data transformation.")
     
-    with st.expander("**Data Analyst | <span style='color:#3498db;'>Merck Group</span>** <span class='experience-duration'>(May 2023 - Dec 2024)</span>", unsafe_allow_html=True):
+    with st.expander("**Data Analyst | Merck Group** (May 2023 - Dec 2024)"):
         st.write("- Automated **batch and real-time data pipelines** in Palantir Foundry.")
         st.write("- Optimized data structures and improved query performance.")
 
-def show_projects():
+# Projects Section
+elif page == "Projects":
     st.header("Key Projects")
     projects = {
         "Predicting Purchase Order (PO) Recycling": "https://github.com/vermasudheer/po-recycling",
@@ -63,14 +67,12 @@ def show_projects():
     }
     
     for project, link in projects.items():
-        st.markdown(f"""
-        <div style="border: 1px solid #ccc; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-            <h4>{project}</h4>
-            <p>🔗 <a href="{link}" target="_blank">GitHub Repository</a></p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(f"### {project}")
+        st.write(f"🔗 [GitHub Repository]({link})")
+        st.divider()
 
-def show_certifications():
+# Certifications Section
+elif page == "Certifications":
     st.header("Certifications")
     certifications = {
         "Azure Fundamentals - Microsoft": "https://www.microsoft.com/en-us/learning/certification-overview.aspx",
@@ -81,14 +83,16 @@ def show_certifications():
     for cert, link in certifications.items():
         st.markdown(f"- **[{cert}]({link})**")
 
-def show_blog():
+# Blog Section
+elif page == "Blog":
     st.header("Blog Posts")
     st.write("Coming soon! 🚀 Stay tuned for insights on:")
     st.markdown("- Data Engineering best practices")
     st.markdown("- Cloud analytics optimization techniques")
     st.markdown("- Procurement tech trends and analysis")
 
-def show_contact():
+# Contact Section
+elif page == "Contact":
     st.sidebar.header("Get in Touch")
     st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
     st.sidebar.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
@@ -101,29 +105,8 @@ def show_contact():
         message = st.text_area("Message", placeholder="Type your message here")
         submitted = st.form_submit_button("Send Message")
         
-        def is_valid_email(email):
-            return re.match(r"[^@]+@[^@]+\.[^@]+", email)
-
         if submitted:
-            if not name or not email or not message:
-                st.error("Please fill out all fields before submitting.")
-            elif not is_valid_email(email):
-                st.error("Invalid email format. Please enter a valid email.")
-            else:
+            if name and email and message:
                 st.success("Thank you for reaching out! I'll get back to you soon.")
-
-# Navigation
-page = st.sidebar.radio("Navigate", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
-
-# Page Mapping
-pages = {
-    "About Me": show_about,
-    "Experience": show_experience,
-    "Projects": show_projects,
-    "Certifications": show_certifications,
-    "Blog": show_blog,
-    "Contact": show_contact
-}
-
-# Execute selected page function
-pages[page]()
+            else:
+                st.error("Please fill out all fields before submitting.")
