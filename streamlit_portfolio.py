@@ -7,8 +7,12 @@ import re
 # Cache the profile image to avoid multiple requests
 @st.cache_data
 def load_profile_image(url):
-    response = requests.get(url, stream=True)
-    return Image.open(io.BytesIO(response.content))
+    try:
+        response = requests.get(url, stream=True)
+        response.raise_for_status()
+        return Image.open(io.BytesIO(response.content))
+    except requests.exceptions.RequestException:
+        return None
 
 # Load Profile Image
 profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/profile.jpg"
@@ -25,8 +29,6 @@ def apply_custom_styles():
             .stButton button:hover { background-color: #2980b9; }
             .highlight { font-weight: bold; color: #e74c3c; }
             .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
-            .experience-title { font-weight: bold; color: #2c3e50; font-size: 18px; }
-            .experience-duration { font-weight: bold; color: #3498db; }
         </style>
         """,
         unsafe_allow_html=True,
@@ -38,7 +40,10 @@ apply_custom_styles()
 def show_about():
     col1, col2 = st.columns([1, 2])
     with col1:
-        st.image(profile_image, width=200)
+        if profile_image:
+            st.image(profile_image, width=200)
+        else:
+            st.warning("Profile image could not be loaded.")
     with col2:
         st.title("Sudheer Verma")
         st.write("Experienced Data Engineer specializing in optimizing data pipelines, dashboarding, and cloud-based infrastructures.")
@@ -47,13 +52,18 @@ def show_about():
 
 def show_experience():
     st.header("Professional Experience")
-    with st.expander("**Solution Analyst | <span style='color:#3498db;'>ExxonMobil</span>** <span class='experience-duration'>(Dec 2024 - Present)</span>", unsafe_allow_html=True):
-        st.write("- Develop dashboards for Procurement KPIs using **Tableau, Power BI, SQL, and Snowflake**.")
-        st.write("- Build robust **data pipelines** in Snowflake, ensuring clean and efficient data transformation.")
-    
-    with st.expander("**Data Analyst | <span style='color:#3498db;'>Merck Group</span>** <span class='experience-duration'>(May 2023 - Dec 2024)</span>", unsafe_allow_html=True):
-        st.write("- Automated **batch and real-time data pipelines** in Palantir Foundry.")
-        st.write("- Optimized data structures and improved query performance.")
+
+    with st.expander("Solution Analyst | ExxonMobil (Dec 2024 - Present)"):
+        st.markdown("""
+        - Develop dashboards for Procurement KPIs using **Tableau, Power BI, SQL, and Snowflake**.
+        - Build robust **data pipelines** in Snowflake, ensuring clean and efficient data transformation.
+        """)
+
+    with st.expander("Data Analyst | Merck Group (May 2023 - Dec 2024)"):
+        st.markdown("""
+        - Automated **batch and real-time data pipelines** in Palantir Foundry.
+        - Optimized data structures and improved query performance.
+        """)
 
 def show_projects():
     st.header("Key Projects")
@@ -96,8 +106,8 @@ def show_contact():
     
     st.header("Send a Message")
     with st.form("contact_form"):
-        name = st.text_input("Name", value="", placeholder="Enter your name")
-        email = st.text_input("Email", value="", placeholder="Enter your email")
+        name = st.text_input("Name", placeholder="Enter your name")
+        email = st.text_input("Email", placeholder="Enter your email")
         message = st.text_area("Message", placeholder="Type your message here")
         submitted = st.form_submit_button("Send Message")
         
@@ -110,7 +120,7 @@ def show_contact():
             elif not is_valid_email(email):
                 st.error("Invalid email format. Please enter a valid email.")
             else:
-                st.success("Thank you for reaching out! I'll get back to you soon.")
+                st.toast("✅ Thank you for reaching out! I'll get back to you soon.")
 
 # Navigation
 page = st.sidebar.radio("Navigate", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
