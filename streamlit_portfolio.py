@@ -22,7 +22,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Navigation
+# Sidebar Navigation
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
 
@@ -52,13 +52,15 @@ elif page == "Experience":
 # Projects Section
 elif page == "Projects":
     st.header("Key Projects")
-    st.write("🚀 **Predicting Purchase Order (PO) Recycling**")
-    st.write("- Designed a machine learning model to predict PO recycling trends, reducing inefficiencies in procurement workflows.")
-    st.write("- Integrated insights into Tableau dashboards for real-time monitoring.")
-    
-    st.write("📊 **Optimized ETL Pipeline in Snowflake**")
-    st.write("- Built and optimized ETL pipelines for procurement data, ensuring data governance and compliance.")
-    st.write("- Implemented indexing and partitioning, reducing query times by 30%.")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("🚀 **Predicting Purchase Order (PO) Recycling**")
+        st.write("- Designed a machine learning model to predict PO recycling trends, reducing inefficiencies in procurement workflows.")
+        st.write("- Integrated insights into Tableau dashboards for real-time monitoring.")
+    with col2:
+        st.write("📊 **Optimized ETL Pipeline in Snowflake**")
+        st.write("- Built and optimized ETL pipelines for procurement data, ensuring data governance and compliance.")
+        st.write("- Implemented indexing and partitioning, reducing query times by 30%.")
 
 # Certifications Section
 elif page == "Certifications":
