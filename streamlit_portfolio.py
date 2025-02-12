@@ -1,37 +1,41 @@
 import streamlit as st
 from PIL import Image
 import requests
+import io
+import re
 
 # Cache the profile image to avoid multiple requests
 @st.cache_data
 def load_profile_image(url):
-    return Image.open(requests.get(url, stream=True).raw)
+    response = requests.get(url, stream=True)
+    return Image.open(io.BytesIO(response.content))
 
 # Load Profile Image
 profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/profile.jpg"
 profile_image = load_profile_image(profile_image_url)
 
-# Custom Styles
-st.markdown(
-    """
-    <style>
-        .navbar { background-color: #2c3e50; padding: 15px; text-align: left; color: white; font-size: 24px; font-weight: bold; }
-        .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
-        .stButton button { background-color: #3498db; color: white; }
-        .stButton button:hover { background-color: #2980b9; }
-        .highlight { font-weight: bold; color: #e74c3c; }
-        .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
-        .stRadio > label { background-color: #dfe6e9; padding: 5px; border-radius: 5px; }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+# Apply Custom Styles
+def apply_custom_styles():
+    st.markdown(
+        """
+        <style>
+            .navbar { background-color: #2c3e50; padding: 15px; text-align: left; color: white; font-size: 24px; font-weight: bold; }
+            .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
+            .stButton button { background-color: #3498db; color: white; }
+            .stButton button:hover { background-color: #2980b9; }
+            .highlight { font-weight: bold; color: #e74c3c; }
+            .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
+            .experience-title { font-weight: bold; color: #2c3e50; font-size: 18px; }
+            .experience-duration { font-weight: bold; color: #3498db; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
-# Navigation
-page = st.sidebar.radio("Navigate", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
+apply_custom_styles()
 
-# About Me Section
-if page == "About Me":
+# Define Page Sections
+def show_about():
     col1, col2 = st.columns([1, 2])
     with col1:
         st.image(profile_image, width=200)
@@ -41,19 +45,17 @@ if page == "About Me":
         st.write("📍 Based in India, currently working at ExxonMobil.")
         st.markdown("**Education:** B.Tech - M.Tech (Dual Degree) from IIT Kanpur")
 
-# Experience Section
-elif page == "Experience":
+def show_experience():
     st.header("Professional Experience")
-    with st.expander("Solution Analyst | ExxonMobil"):
+    with st.expander("**Solution Analyst | <span style='color:#3498db;'>ExxonMobil</span>** <span class='experience-duration'>(Dec 2024 - Present)</span>", unsafe_allow_html=True):
         st.write("- Develop dashboards for Procurement KPIs using **Tableau, Power BI, SQL, and Snowflake**.")
         st.write("- Build robust **data pipelines** in Snowflake, ensuring clean and efficient data transformation.")
     
-    with st.expander("Data Analyst | Merck Group"):
+    with st.expander("**Data Analyst | <span style='color:#3498db;'>Merck Group</span>** <span class='experience-duration'>(May 2023 - Dec 2024)</span>", unsafe_allow_html=True):
         st.write("- Automated **batch and real-time data pipelines** in Palantir Foundry.")
         st.write("- Optimized data structures and improved query performance.")
 
-# Projects Section - Displaying as cards
-elif page == "Projects":
+def show_projects():
     st.header("Key Projects")
     projects = {
         "Predicting Purchase Order (PO) Recycling": "https://github.com/vermasudheer/po-recycling",
@@ -61,12 +63,14 @@ elif page == "Projects":
     }
     
     for project, link in projects.items():
-        st.markdown(f"### {project}")
-        st.write(f"🔗 [GitHub Repository]({link})")
-        st.divider()
+        st.markdown(f"""
+        <div style="border: 1px solid #ccc; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+            <h4>{project}</h4>
+            <p>🔗 <a href="{link}" target="_blank">GitHub Repository</a></p>
+        </div>
+        """, unsafe_allow_html=True)
 
-# Certifications Section - Displaying as a list with links
-elif page == "Certifications":
+def show_certifications():
     st.header("Certifications")
     certifications = {
         "Azure Fundamentals - Microsoft": "https://www.microsoft.com/en-us/learning/certification-overview.aspx",
@@ -77,20 +81,18 @@ elif page == "Certifications":
     for cert, link in certifications.items():
         st.markdown(f"- **[{cert}]({link})**")
 
-# Blog Section - Displaying as bullet points
-elif page == "Blog":
+def show_blog():
     st.header("Blog Posts")
     st.write("Coming soon! 🚀 Stay tuned for insights on:")
     st.markdown("- Data Engineering best practices")
     st.markdown("- Cloud analytics optimization techniques")
     st.markdown("- Procurement tech trends and analysis")
 
-# Contact Section - Interactive form with mandatory fields
-elif page == "Contact":
+def show_contact():
     st.sidebar.header("Get in Touch")
     st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
-    st.sidebar.markdown("🔗 [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
-    st.sidebar.markdown("🐙 [vermasudheer](https://github.com/vermasudheer)")
+    st.sidebar.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
+    st.sidebar.markdown("🐙 [GitHub](https://github.com/vermasudheer)")
     
     st.header("Send a Message")
     with st.form("contact_form"):
@@ -99,8 +101,29 @@ elif page == "Contact":
         message = st.text_area("Message", placeholder="Type your message here")
         submitted = st.form_submit_button("Send Message")
         
+        def is_valid_email(email):
+            return re.match(r"[^@]+@[^@]+\.[^@]+", email)
+
         if submitted:
-            if name and email and message:
-                st.success("Thank you for reaching out! I'll get back to you soon.")
-            else:
+            if not name or not email or not message:
                 st.error("Please fill out all fields before submitting.")
+            elif not is_valid_email(email):
+                st.error("Invalid email format. Please enter a valid email.")
+            else:
+                st.success("Thank you for reaching out! I'll get back to you soon.")
+
+# Navigation
+page = st.sidebar.radio("Navigate", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
+
+# Page Mapping
+pages = {
+    "About Me": show_about,
+    "Experience": show_experience,
+    "Projects": show_projects,
+    "Certifications": show_certifications,
+    "Blog": show_blog,
+    "Contact": show_contact
+}
+
+# Execute selected page function
+pages[page]()
