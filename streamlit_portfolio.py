@@ -50,7 +50,7 @@ elif page == "Experience":
         st.write("- Automated **batch and real-time data pipelines** in Palantir Foundry.")
         st.write("- Optimized data structures and improved query performance.")
 
-# Projects Section
+# Projects Section - Displaying as cards
 elif page == "Projects":
     st.header("Key Projects")
     projects = {
@@ -59,31 +59,37 @@ elif page == "Projects":
     }
     
     for project, link in projects.items():
-        with st.expander(project):
-            st.write(f"[GitHub Repository]({link})")
+        st.markdown(f"### {project}")
+        st.write(f"🔗 [GitHub Repository]({link})")
+        st.divider()
 
-# Certifications Section
+# Certifications Section - Displaying as a table
 elif page == "Certifications":
     st.header("Certifications")
-    with st.expander("Azure Fundamentals - Microsoft"):
-        st.markdown("[View Certificate](https://www.microsoft.com/en-us/learning/certification-overview.aspx)")
-    with st.expander("Snowflake Hands-On Essentials"):
-        st.markdown("[View Certificate](https://www.snowflake.com/training/)")
-    with st.expander("Power BI Data Analyst"):
-        st.markdown("[View Certificate](https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/)")
+    certifications = {
+        "Azure Fundamentals - Microsoft": "https://www.microsoft.com/en-us/learning/certification-overview.aspx",
+        "Snowflake Hands-On Essentials": "https://www.snowflake.com/training/",
+        "Power BI Data Analyst": "https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/"
+    }
+    
+    st.table([[cert, f"[View Certificate]({link})"] for cert, link in certifications.items()])
 
-# Blog Section
+# Blog Section - Displaying as bullet points
 elif page == "Blog":
     st.header("Blog Posts")
-    st.write("Coming soon! 🚀 Stay tuned for insights on **data engineering, cloud analytics, and procurement tech trends**.")
+    st.write("Coming soon! 🚀 Stay tuned for insights on:")
+    st.markdown("- Data Engineering best practices")
+    st.markdown("- Cloud analytics optimization techniques")
+    st.markdown("- Procurement tech trends and analysis")
 
-# Contact Section
+# Contact Section - Interactive form with sidebar placement
 elif page == "Contact":
-    st.header("Get in Touch")
-    st.write("📧 Email: sudheerverma25@gmail.com")
-    st.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
-    st.markdown("🐙 [GitHub](https://github.com/vermasudheer)")
+    st.sidebar.header("Get in Touch")
+    st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
+    st.sidebar.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
+    st.sidebar.markdown("🐙 [GitHub](https://github.com/vermasudheer)")
     
+    st.header("Send a Message")
     with st.form("contact_form"):
         name = st.text_input("Name")
         email = st.text_input("Email")
