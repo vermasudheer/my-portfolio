@@ -92,6 +92,7 @@ def show_projects():
 
 def show_certifications():
     st.header("Certifications")
+
     certifications = {
         "Azure Fundamentals - Microsoft": "https://www.microsoft.com/en-us/learning/certification-overview.aspx",
         "Snowflake Hands-On Essentials": "https://www.snowflake.com/training/",
@@ -99,14 +100,19 @@ def show_certifications():
     }
     
     for cert, link in certifications.items():
-        st.markdown(f"- **[{cert}]({link})**")
+        st.markdown(f"✔ **{cert}:** [Certificate Link]({link})")
 
 def show_blog():
     st.header("Blog Posts")
-    st.write("Coming soon! 🚀 Stay tuned for insights on:")
-    st.markdown("- Data Engineering best practices")
-    st.markdown("- Cloud analytics optimization techniques")
-    st.markdown("- Procurement tech trends and analysis")
+
+    blogs = [
+        {"title": "Data Engineering Best Practices", "link": "#"},
+        {"title": "Cloud Analytics Optimization Techniques", "link": "#"},
+        {"title": "Procurement Tech Trends and Analysis", "link": "#"}
+    ]
+
+    for blog in blogs:
+        st.markdown(f"📌 **{blog['title']}:** [Read More]({blog['link']})")
 
 def show_contact():
     st.sidebar.header("Get in Touch")
