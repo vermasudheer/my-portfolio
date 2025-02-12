@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import requests
+import re
 
 # Cache the profile image to avoid multiple requests
 @st.cache_data
@@ -105,8 +106,11 @@ elif page == "Contact":
         message = st.text_area("Message", placeholder="Type your message here")
         submitted = st.form_submit_button("Send Message")
         
+        email_pattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         if submitted:
-            if name and email and message:
-                st.success("Thank you for reaching out! I'll get back to you soon.")
-            else:
+            if not name or not email or not message:
                 st.error("Please fill out all fields before submitting.")
+            elif not re.match(email_pattern, email):
+                st.error("Please enter a valid email address.")
+            else:
+                st.success("Thank you for reaching out! I'll get back to you soon.")
