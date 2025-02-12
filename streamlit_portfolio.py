@@ -1,22 +1,54 @@
 import streamlit as st
 
-# Set page title and layout
+# Set page title and layout with custom background color
 st.set_page_config(page_title="My Portfolio", page_icon="🚀", layout="wide")
 
-# Sidebar navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Experience", "Projects", "Skills", "Education", "About Me", "Contact"])
+# Custom CSS for styling
+st.markdown(
+    '''
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        .sidebar .sidebar-content {
+            background-color: #1e3a8a; /* Dark Blue */
+        }
+        .stButton>button {
+            background-color: #4f46e5;
+            color: white;
+            font-weight: bold;
+        }
+        .stRadio > div {
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .main-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 
-# Home Page
-if page == "Home":
-    st.title("Welcome to My Portfolio")
-    st.subheader("Solution Analyst | Data Engineer | Data Analyst")
-    st.write("I specialize in building scalable data solutions, developing analytics dashboards, and optimizing ETL pipelines.")
+# Sidebar navigation with improved styling
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Skills", "Education", "Certifications", "Blog", "Contact"])
+
+# About Me Section (First Section)
+if page == "About Me":
+    st.title("About Me")
+    st.write("🌟 Where data meets mathematics, insights bloom, and patterns unfold.")
+    st.write("I am a Solution Analyst specializing in **data analytics, visualization, and pipeline development.** Passionate about solving business problems using data-driven approaches.")
+    st.write("[LinkedIn](https://linkedin.com/in/your-profile) | [GitHub](https://github.com/your-github)")
 
 # Experience Page
 elif page == "Experience":
     st.title("Experience")
-    
+
     st.subheader("Solution Analyst - ExxonMobil (Dec 2024 - Present)")
     st.write("""
     - Develop, maintain, and enhance dashboards and visualizations for the Procurement department using **Tableau, Power BI, SQL, and Snowflake**.
@@ -25,16 +57,6 @@ elif page == "Experience":
     - Troubleshoot issues related to data and dashboards, ensuring smooth reporting.
     - Prepare technical documentation and train end-users on dashboards and reports.
     - Built robust data pipelines in **Snowflake** to automate data flows.
-    """)
-
-    st.subheader("Data Analyst - Merck Group (May 2023 - Dec 2024)")
-    st.write("""
-    - Developed **batch and real-time data pipelines** in **Palantir Foundry**, automating workflows and saving 4 FTE hours annually.
-    - Leveraged **Python, SQL, and PySpark** to enhance data processing efficiency.
-    - Designed high-performance, reusable architectures for cross-departmental insights.
-    - Applied **Normalization, Denormalization, and Dimensional Modeling** to optimize data structures, improving query performance by 30%.
-    - Increased query speed by 25% using **Indexing, Cardinality Analysis, and Apache Spark optimizations**.
-    - Created interactive dashboards integrating **SQL & Python**, improving workflow efficiency.
     """)
 
 # Projects Page
@@ -63,12 +85,19 @@ elif page == "Education":
     st.subheader("B. Tech - M. Tech (Dual Degree)")
     st.write("**Indian Institute of Technology (IIT) Kanpur - 2021**")
 
-# About Me Page
-elif page == "About Me":
-    st.title("About Me")
-    st.subheader("Motto")
-    st.write("🌟 *Where data meets mathematics, insights bloom, and patterns unfold.*")
-    st.write("I'm passionate about solving business challenges using data-driven solutions. I love optimizing data pipelines and uncovering insights through analytics.")
+# Certifications Page
+elif page == "Certifications":
+    st.title("Certifications")
+    st.write("📜 **Azure Data Engineer Associate** - [View Certificate](#)")
+    st.write("📜 **Google Data Analytics Professional** - [View Certificate](#)")
+    st.write("📜 **Snowflake Data Warehouse Specialist** - [View Certificate](#)")
+
+# Blog Page
+elif page == "Blog":
+    st.title("Blog")
+    st.write("📝 [Optimizing ETL Pipelines for Large-Scale Data](#)")
+    st.write("📝 [The Role of Data Engineering in AI](#)")
+    st.write("📝 [Power BI vs Tableau: Which One to Choose?](#)")
 
 # Contact Page
 elif page == "Contact":
