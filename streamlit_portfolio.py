@@ -3,7 +3,7 @@ from PIL import Image
 import requests
 
 # Load Profile Image from GitHub Repo
-profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/assets/profile.jpg"
+profile_image_url = "https://github.com/vermasudheer/my-portfolio/blob/main/profile.jpg"
 profile_image = Image.open(requests.get(profile_image_url, stream=True).raw)
 
 # Custom Styles
