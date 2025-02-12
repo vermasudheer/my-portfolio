@@ -1,106 +1,77 @@
 import streamlit as st
+from PIL import Image
+import requests
 
-# Set page title and layout
-st.set_page_config(page_title="Sudheer Verma - Portfolio", page_icon="🚀", layout="wide")
+# Load Profile Image from GitHub Repo
+profile_image_url = "https://raw.githubusercontent.com/vermasudheer/my-portfolio/main/assets/profile.jpg"
+profile_image = Image.open(requests.get(profile_image_url, stream=True).raw)
 
-# Custom CSS for theme and UI enhancements
+# Custom Styles
 st.markdown(
-    '''
+    """
     <style>
-        body {
-            background-color: #f5f7fa;
-        }
-        .sidebar .sidebar-content {
-            background-color: #1e3a8a; /* Dark Blue */
-        }
-        .stButton>button {
-            background-color: #4f46e5;
-            color: white;
-            font-weight: bold;
-        }
-        .stRadio > div {
-            background-color: white;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .main-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .navbar {
-            padding: 10px;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
+        .navbar { background-color: #2c3e50; padding: 15px; text-align: center; color: white; font-size: 24px; font-weight: bold; }
+        .sidebar .sidebar-content { background-color: #2c3e50; color: white; }
+        .stButton button { background-color: #3498db; color: white; }
+        .stButton button:hover { background-color: #2980b9; }
+        .highlight { font-weight: bold; color: #e74c3c; }
     </style>
-    ''',
-    unsafe_allow_html=True
+    """,
+    unsafe_allow_html=True,
 )
 
-# Sidebar navigation
-page = st.sidebar.radio("", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"], index=0)
+# Navigation
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ["About Me", "Experience", "Projects", "Certifications", "Blog", "Contact"])
 
-# Sidebar - Education Details
-st.sidebar.markdown("### 🎓 Education")
-st.sidebar.write("**B. Tech - M. Tech (Dual Degree)**")
-st.sidebar.write("Indian Institute of Technology (IIT) Kanpur, 2021")
+# About Me Section
+if page == "About Me":
+    st.image(profile_image, width=200)
+    st.title("Sudheer Verma")
+    st.write("Solution Analyst | Data Engineer | Procurement Analytics | Cloud Technologies")
+    st.write("With over 3 years of experience in data engineering and analytics, I specialize in optimizing data pipelines, enhancing dashboarding solutions, and leveraging cloud-based infrastructures for large-scale data management.")
+    st.write("📍 Based in India, currently working at ExxonMobil.")
+    st.markdown("**Education:** B.Tech - M.Tech (Dual Degree) from IIT Kanpur")
 
-# About Me & Experience Sections
-if page in ["About Me", "Experience"]:
-    st.markdown(
-        f'<div class="navbar" style="background-image: url(\'https://www.freepik.com/premium-ai-image/business-data-analysis-analytics-customers-insights-with-charts-abstract-blue-background-vector-illustration-generative-ai_38344146.htm\');">{page}</div>',
-
-        unsafe_allow_html=True
-    )
-    st.image("https://media.licdn.com/dms/image/D4D03AQEbcj1Mnl2DRA/profile-displayphoto-shrink_800_800/0/1701123456789?e=1710009600&v=beta&t=abc123xyz", width=150)
-    if page == "About Me":
-        st.write("I am a Solution Analyst specializing in **data analytics, visualization, and pipeline development.** Passionate about solving business problems using data-driven approaches.")
-    elif page == "Experience":
-        st.subheader("Solution Analyst - ExxonMobil (Dec 2024 - Present)")
-        st.write("""
-        - Develop and maintain dashboards for the Procurement department using **Tableau, Power BI, SQL, and Snowflake**.
-        - Build customized insights and develop logics for key procurement metrics.
-        - Collaborate with **Procurement Teams, Data Engineers, and Management** to deliver analytics solutions.
-        - Prepare technical documentation and train end-users on dashboards and reports.
-        - Built robust data pipelines in **Snowflake** to automate data flows.
-        """)
-        
-        st.subheader("Data Analyst - Merck Group (May 2023 - Dec 2024)")
-        st.write("""
-        - Developed batch and real-time data pipelines in **Palantir Foundry**, automating workflows and eliminating **4 FTE hours annually**.
-        - Enhanced data processing efficiency using **Python, SQL, and PySpark**.
-        - Designed a high-performance, reusable architecture that improved data accessibility and reduced processing times.
-        - Improved query speed by 25% through Indexing, Cardinality Analysis, and Apache Spark optimizations.
-        - Created interactive dashboards integrating **SQL & Python** for automated updates, increasing efficiency and performance tracking.
-        """)
+# Experience Section
+elif page == "Experience":
+    st.header("Professional Experience")
+    st.subheader("Solution Analyst | ExxonMobil")
+    st.write("- Develop, maintain, and enhance dashboards for Procurement KPIs using **Tableau, Power BI, SQL, and Snowflake**.")
+    st.write("- Build robust **data pipelines** in Snowflake, ensuring clean and efficient data transformation.")
+    st.write("- Collaborate with cross-functional teams to enhance procurement analytics.")
+    
+    st.subheader("Data Analyst | Merck Group")
+    st.write("- Automated **batch and real-time data pipelines** in Palantir Foundry, saving 4 FTE hours annually.")
+    st.write("- Optimized data structures with **normalization, denormalization, and dimensional modeling** for improved query performance.")
+    st.write("- Developed interactive dashboards to visualize operational metrics, increasing workflow efficiency.")
 
 # Projects Section
 elif page == "Projects":
-    st.markdown('<div class="navbar" style="background-color: #ff4dff;">Projects</div>', unsafe_allow_html=True)
-    st.write("🚀 **PO Recycling Prediction Model** - Predicts PO recycling trends to improve procurement efficiency.")
-    st.write("📡 **Telecom Data Pipeline** - Built an ETL pipeline for telecom data using **Azure Data Factory, Databricks, and Snowflake**.")
-    st.write("📊 **Tender Dashboard** - Developed an interactive procurement dashboard, reducing data lag by 30 days.")
+    st.header("Key Projects")
+    st.write("🚀 **Predicting Purchase Order (PO) Recycling**")
+    st.write("- Designed a machine learning model to predict PO recycling trends, reducing inefficiencies in procurement workflows.")
+    st.write("- Integrated insights into Tableau dashboards for real-time monitoring.")
+    
+    st.write("📊 **Optimized ETL Pipeline in Snowflake**")
+    st.write("- Built and optimized ETL pipelines for procurement data, ensuring data governance and compliance.")
+    st.write("- Implemented indexing and partitioning, reducing query times by 30%.")
 
 # Certifications Section
 elif page == "Certifications":
-    st.markdown('<div class="navbar" style="background-color: #4dffb8;">Certifications</div>', unsafe_allow_html=True)
-    st.write("📜 **Azure Data Engineer Associate** - [View Certificate](#)")
-    st.write("📜 **Google Data Analytics Professional** - [View Certificate](#)")
-    st.write("📜 **Snowflake Data Warehouse Specialist** - [View Certificate](#)")
+    st.header("Certifications")
+    st.markdown("✅ [Azure Fundamentals - Microsoft](https://www.microsoft.com/en-us/learning/certification-overview.aspx)")
+    st.markdown("✅ [Snowflake Hands-On Essentials](https://www.snowflake.com/training/)")
+    st.markdown("✅ [Power BI Data Analyst](https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/)")
 
 # Blog Section
 elif page == "Blog":
-    st.markdown('<div class="navbar" style="background-color: #4dffb8;">Blog</div>', unsafe_allow_html=True)
-    st.write("📝 [Optimizing ETL Pipelines for Large-Scale Data](#)")
-    st.write("📝 [The Role of Data Engineering in AI](#)")
-    st.write("📝 [Power BI vs Tableau: Which One to Choose?](#)")
+    st.header("Blog Posts")
+    st.write("Coming soon! 🚀 Stay tuned for insights on **data engineering, cloud analytics, and procurement tech trends**.")
 
 # Contact Section
 elif page == "Contact":
-    st.markdown('<div class="navbar" style="background-color: #4ddbff;">Contact Me</div>', unsafe_allow_html=True)
-    st.write(f"🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
-    st.write(f"🔗 [GitHub](https://github.com/vermasudheer)")
+    st.header("Get in Touch")
+    st.write("📧 Email: sudheer@example.com")
+    st.markdown("🔗 LinkedIn: [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
+    st.markdown("🐙 GitHub: [vermasudheer](https://github.com/vermasudheer)")
