@@ -94,9 +94,10 @@ def show_certifications():
     st.header("Certifications")
 
     certifications = {
-        "Azure Fundamentals - Microsoft": "https://www.microsoft.com/en-us/learning/certification-overview.aspx",
-        "Snowflake Hands-On Essentials": "https://www.snowflake.com/training/",
-        "Power BI Data Analyst": "https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/"
+        "Introduction to Modern Data Engineering with Snowflake": "https://www.coursera.org/account/accomplishments/verify/ZAV6PQ3E2MM2",
+        "Snowflake - Introduction Course": "https://www.coursera.org/account/accomplishments/verify/RX92FSOSI9C6",
+        "Tableau Advanced: Master Tableau in Data Science": "https://www.udemy.com/certificate/UC-0fbe3b48-f5b9-47f3-8bb5-2f0f7b4c9afb/",
+        "Power BI": "https://udemy-certificate.s3.amazonaws.com/image/UC-1a016bf8-c2a3-42cb-abe7-a0a35d40dc65.jpg"
     }
     
     for cert, link in certifications.items():
@@ -117,8 +118,8 @@ def show_blog():
 def show_contact():
     st.sidebar.header("Get in Touch")
     st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
-    st.sidebar.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
-    st.sidebar.markdown("🐙 [GitHub](https://github.com/vermasudheer)")
+    st.sidebar.markdown("🔗 [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
+    st.sidebar.markdown("🐙 [vermasudheer](https://github.com/vermasudheer)")
     
     st.header("Send a Message")
     with st.form("contact_form"):
