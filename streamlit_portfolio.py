@@ -52,7 +52,8 @@ st.sidebar.write("Indian Institute of Technology (IIT) Kanpur, 2021")
 # About Me & Experience Sections
 if page in ["About Me", "Experience"]:
     st.markdown(
-        f'<div class="navbar" style="background-image: url('https://www.freepik.com/premium-ai-image/business-data-analysis-analytics-customers-insights-with-charts-abstract-blue-background-vector-illustration-generative-ai_38344146.htm');">{page}</div>',
+        f'<div class="navbar" style="background-image: url(\'https://www.freepik.com/premium-ai-image/business-data-analysis-analytics-customers-insights-with-charts-abstract-blue-background-vector-illustration-generative-ai_38344146.htm\');">{page}</div>',
+
         unsafe_allow_html=True
     )
     st.image("https://media.licdn.com/dms/image/D4D03AQEbcj1Mnl2DRA/profile-displayphoto-shrink_800_800/0/1701123456789?e=1710009600&v=beta&t=abc123xyz", width=150)
