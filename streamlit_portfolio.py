@@ -20,6 +20,8 @@ st.markdown(
         .stButton button { background-color: #3498db; color: white; }
         .stButton button:hover { background-color: #2980b9; }
         .highlight { font-weight: bold; color: #e74c3c; }
+        .main-container { background-color: #f7f9fc; padding: 20px; border-radius: 10px; }
+        .stRadio > label { background-color: #dfe6e9; padding: 5px; border-radius: 5px; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -63,7 +65,7 @@ elif page == "Projects":
         st.write(f"🔗 [GitHub Repository]({link})")
         st.divider()
 
-# Certifications Section - Displaying as a table
+# Certifications Section - Displaying as a list with links
 elif page == "Certifications":
     st.header("Certifications")
     certifications = {
@@ -72,7 +74,8 @@ elif page == "Certifications":
         "Power BI Data Analyst": "https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/"
     }
     
-    st.table([[cert, f"[View Certificate]({link})"] for cert, link in certifications.items()])
+    for cert, link in certifications.items():
+        st.markdown(f"- **[{cert}]({link})**")
 
 # Blog Section - Displaying as bullet points
 elif page == "Blog":
@@ -82,7 +85,7 @@ elif page == "Blog":
     st.markdown("- Cloud analytics optimization techniques")
     st.markdown("- Procurement tech trends and analysis")
 
-# Contact Section - Interactive form with sidebar placement
+# Contact Section - Interactive form with mandatory fields
 elif page == "Contact":
     st.sidebar.header("Get in Touch")
     st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
@@ -91,9 +94,13 @@ elif page == "Contact":
     
     st.header("Send a Message")
     with st.form("contact_form"):
-        name = st.text_input("Name")
-        email = st.text_input("Email")
-        message = st.text_area("Message")
+        name = st.text_input("Name", value="", placeholder="Enter your name")
+        email = st.text_input("Email", value="", placeholder="Enter your email")
+        message = st.text_area("Message", placeholder="Type your message here")
         submitted = st.form_submit_button("Send Message")
+        
         if submitted:
-            st.success("Thank you for reaching out! I'll get back to you soon.")
+            if name and email and message:
+                st.success("Thank you for reaching out! I'll get back to you soon.")
+            else:
+                st.error("Please fill out all fields before submitting.")
