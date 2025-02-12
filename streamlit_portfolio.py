@@ -5,7 +5,7 @@ import io
 import re
 
 # Set page title and favicon
-st.set_page_config(page_title="Sudheer Verma | Portfolio", page_icon="🎯")
+st.set_page_config(page_title="Sudheer Verma | Portfolio", page_icon="🎯", layout="wide")
 
 # Cache the profile image to avoid multiple requests
 @st.cache_data
