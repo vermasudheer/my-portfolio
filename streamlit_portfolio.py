@@ -67,16 +67,26 @@ def show_experience():
 
 def show_projects():
     st.header("Key Projects")
-    projects = {
-        "Predicting Purchase Order (PO) Recycling": "https://github.com/vermasudheer/po-recycling",
-        "Optimized ETL Pipeline in Snowflake": "https://github.com/vermasudheer/etl-snowflake"
-    }
+
+    projects = [
+        {
+            "title": "Predicting Purchase Order (PO) Recycling",
+            "description": "Developed a machine learning model to predict purchase order recycling patterns, reducing manual interventions and optimizing procurement workflows.",
+            "link": "https://github.com/vermasudheer/po-recycling"
+        },
+        {
+            "title": "Optimized ETL Pipeline in Snowflake",
+            "description": "Designed and implemented an efficient ETL pipeline using Snowflake and SQL, reducing data processing time by 40%.",
+            "link": "https://github.com/vermasudheer/etl-snowflake"
+        }
+    ]
     
-    for project, link in projects.items():
+    for project in projects:
         st.markdown(f"""
-        <div style="border: 1px solid #ccc; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
-            <h4>{project}</h4>
-            <p>🔗 <a href="{link}" target="_blank">GitHub Repository</a></p>
+        <div style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; margin-bottom: 10px; background-color: #f9f9f9;">
+            <h4>{project['title']}</h4>
+            <p>{project['description']}</p>
+            🔗 <a href="{project['link']}" target="_blank"><b>GitHub Repository</b></a>
         </div>
         """, unsafe_allow_html=True)
 
