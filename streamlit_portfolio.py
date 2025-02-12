@@ -89,8 +89,8 @@ elif page == "Blog":
 elif page == "Contact":
     st.sidebar.header("Get in Touch")
     st.sidebar.write("📧 Email: sudheerverma25@gmail.com")
-    st.sidebar.markdown("🔗 [LinkedIn](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
-    st.sidebar.markdown("🐙 [GitHub](https://github.com/vermasudheer)")
+    st.sidebar.markdown("🔗 [Sudheer Verma](https://www.linkedin.com/in/sudheer-verma-293b4416a/)")
+    st.sidebar.markdown("🐙 [vermasudheer](https://github.com/vermasudheer)")
     
     st.header("Send a Message")
     with st.form("contact_form"):
